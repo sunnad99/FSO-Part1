@@ -6,21 +6,25 @@ const Header = (props) => {
   return <h1>{props.course}</h1>;
 };
 
+const Part = (props) => {
+  console.log("Entered a part");
+
+  return (
+    <p>
+      {props.part} {props.exercises}
+    </p>
+  );
+};
+
 const Content = (props) => {
   console.log("Entered the content!");
 
   const parts = props.parts;
   return (
     <>
-      <p>
-        {parts[0].part} {parts[0].exercises}
-      </p>
-      <p>
-        {parts[1].part} {parts[1].exercises}
-      </p>
-      <p>
-        {parts[2].part} {parts[2].exercises}
-      </p>
+      <Part part={parts[0].part} exercises={parts[0].exercises} />
+      <Part part={parts[1].part} exercises={parts[1].exercises} />
+      <Part part={parts[2].part} exercises={parts[2].exercises} />
     </>
   );
 };
