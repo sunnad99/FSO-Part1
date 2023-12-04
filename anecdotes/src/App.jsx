@@ -1,5 +1,69 @@
 import { useState } from "react";
 
+const Button = ({ text, handleClick }) => {
+  console.log("Enter button component: ", text);
+
+  return (
+    <button type="button" onClick={handleClick}>
+      {text}
+    </button>
+  );
+};
+
+const AnecdoteOfTheDay = ({
+  anecdote,
+  votes,
+  handleAnecdoteVotes,
+  handleAnecdoteText,
+}) => {
+  console.log("Entered AnecdoteOfTheDay with:", anecdote, votes);
+
+  return (
+    <>
+      <h1>Anecdote of the day</h1>
+      <p>{anecdote}</p>
+      <p>has {votes} votes</p>
+      <Button text="vote" handleClick={handleAnecdoteVotes} />
+      <Button text="next anecdote" handleClick={handleAnecdoteText} />
+    </>
+  );
+};
+
+const AnecdoteMostVotes = ({
+  anecdoteOfTheDay,
+  maxAnecdoteIndex,
+  maxAnecdoteVotes,
+}) => {
+  console.log(
+    "Entered AnecdoteOfTheDay with:",
+    anecdoteOfTheDay,
+    maxAnecdoteIndex,
+    maxAnecdoteVotes
+  );
+
+  const commonHeader = <h1>Anecdote with most votes</h1>;
+
+  // If there are no votes, render "No anecdotes to show" with emphasis using <strong>
+  if (!maxAnecdoteIndex) {
+    return (
+      <>
+        {commonHeader}
+        <p>
+          <strong>{anecdoteOfTheDay}</strong>
+        </p>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {commonHeader}
+      <p>{anecdoteOfTheDay}</p>
+      <p>has {maxAnecdoteVotes} votes</p>
+    </>
+  );
+};
+
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -35,18 +99,47 @@ const App = () => {
 
   const selectedAnnecdote = anecdotes[selected];
   const selectedVotes = votes[selected] || 0;
+  let { anecdoteOfTheDay, maxAnecdoteIndex, maxAnecdoteVotes } =
+    extractAnecdoteWithMostVotes(votes, anecdotes);
+
   return (
     <div>
-      <p>{selectedAnnecdote}</p>
-      <p>has {selectedVotes} votes</p>
-      <button type="button" onClick={handleAnecdoteVotes}>
-        vote
-      </button>
-      <button type="button" onClick={handleAnecdoteText}>
-        next anecdote
-      </button>
+      <AnecdoteOfTheDay
+        anecdote={selectedAnnecdote}
+        votes={selectedVotes}
+        handleAnecdoteText={handleAnecdoteText}
+        handleAnecdoteVotes={handleAnecdoteVotes}
+      />
+
+      <AnecdoteMostVotes
+        anecdoteOfTheDay={anecdoteOfTheDay}
+        maxAnecdoteIndex={maxAnecdoteIndex}
+        maxAnecdoteVotes={maxAnecdoteVotes}
+      />
     </div>
   );
 };
 
 export default App;
+function extractAnecdoteWithMostVotes(votes, anecdotes) {
+  let anecdoteOfTheDay = "No anecdotes to show";
+  let maxAnecdoteIndex = null;
+  let maxAnecdoteVotes = null;
+
+  // If there are no votes, return the default values
+  if (Object.keys(votes).length !== 0) {
+    let currentMax = -1;
+    for (let key in votes) {
+      let currentVotes = votes[key];
+      if (currentVotes > currentMax) {
+        currentMax = currentVotes;
+        maxAnecdoteVotes = currentVotes;
+        maxAnecdoteIndex = key;
+      }
+    }
+
+    anecdoteOfTheDay = anecdotes[maxAnecdoteIndex];
+  }
+
+  return { anecdoteOfTheDay, maxAnecdoteIndex, maxAnecdoteVotes };
+}
