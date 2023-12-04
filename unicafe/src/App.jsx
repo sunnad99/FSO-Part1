@@ -10,6 +10,36 @@ const Button = ({ text, handleClick }) => {
   );
 };
 
+const Statistic = ({ name, value }) => {
+  console.log("Entered a single statistic component: ", name);
+
+  return (
+    <p>
+      {name} {value}
+    </p>
+  );
+};
+
+const Statistics = ({ good, neutral, bad }) => {
+  console.log("Entered Statistics Component!");
+
+  const all = good + neutral + bad;
+  const average = (good - bad) / all || 0; // Ensures average remains 0 if not divisible
+  const positivePercentage = good / all || 0; // Ensures positive remains 0 if not divisible
+
+  return (
+    <>
+      <h1>statistics</h1>
+      <Statistic name="good" value={good} />
+      <Statistic name="neutral" value={neutral} />
+      <Statistic name="bad" value={bad} />
+      <Statistic name="all" value={all} />
+      <Statistic name="average" value={average} />
+      <Statistic name="positive" value={positivePercentage} />
+    </>
+  );
+};
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
@@ -27,10 +57,7 @@ const App = () => {
       <Button text="neutral" handleClick={handleNeutral} />
       <Button text="bad" handleClick={handleBad} />
 
-      <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
