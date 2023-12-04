@@ -14,9 +14,10 @@ const StatisticLine = ({ name, value }) => {
   console.log("Entered a single statistic component: ", name);
 
   return (
-    <p>
-      {name} {value}
-    </p>
+    <tr>
+      <td>{name}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 
@@ -36,17 +37,20 @@ const Statistics = ({ good, neutral, bad }) => {
 
   const all = good + neutral + bad;
   const average = (good - bad) / all || 0; // Ensures average remains 0 if not divisible
-  const positivePercentage = good / all || 0; // Ensures positive remains 0 if not divisible
+  const positivePercentage = (good / all || 0) * 100 + " %"; // Ensures positive remains 0 if not divisible
 
   return (
     <>
       {heading}
-      <StatisticLine name="good" value={good} />
-      <StatisticLine name="neutral" value={neutral} />
-      <StatisticLine name="bad" value={bad} />
-      <StatisticLine name="all" value={all} />
-      <StatisticLine name="average" value={average} />
-      <StatisticLine name="positive" value={positivePercentage} />
+
+      <table>
+        <StatisticLine name="good" value={good} />
+        <StatisticLine name="neutral" value={neutral} />
+        <StatisticLine name="bad" value={bad} />
+        <StatisticLine name="all" value={all} />
+        <StatisticLine name="average" value={average} />
+        <StatisticLine name="positive" value={positivePercentage} />
+      </table>
     </>
   );
 };
