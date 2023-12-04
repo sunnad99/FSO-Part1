@@ -23,6 +23,8 @@ const Statistic = ({ name, value }) => {
 const Statistics = ({ good, neutral, bad }) => {
   console.log("Entered Statistics Component!");
 
+  if (good === 0 && neutral === 0 && bad === 0) return <p>No feedback given</p>;
+
   const all = good + neutral + bad;
   const average = (good - bad) / all || 0; // Ensures average remains 0 if not divisible
   const positivePercentage = good / all || 0; // Ensures positive remains 0 if not divisible
