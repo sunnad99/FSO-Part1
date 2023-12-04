@@ -13,18 +13,36 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState({});
 
-  const handleNextAnnecdote = () => {
+  const handleAnecdoteText = () => {
     const anecdoteIndex = Math.floor(Math.random() * anecdotes.length);
-
+    console.log("Produced an index of: ", anecdoteIndex);
     setSelected(anecdoteIndex);
   };
 
+  const handleAnecdoteVotes = () => {
+    const prevVotes = { ...votes };
+
+    if (selected in prevVotes) {
+      prevVotes[selected] += 1;
+    } else {
+      prevVotes[selected] = 1;
+    }
+
+    setVotes(prevVotes);
+  };
+
+  const selectedAnnecdote = anecdotes[selected];
+  const selectedVotes = votes[selected] || 0;
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-
-      <button type="button" onClick={handleNextAnnecdote}>
+      <p>{selectedAnnecdote}</p>
+      <p>has {selectedVotes} votes</p>
+      <button type="button" onClick={handleAnecdoteVotes}>
+        vote
+      </button>
+      <button type="button" onClick={handleAnecdoteText}>
         next anecdote
       </button>
     </div>
