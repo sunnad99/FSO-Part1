@@ -10,7 +10,7 @@ const Button = ({ text, handleClick }) => {
   );
 };
 
-const Statistic = ({ name, value }) => {
+const StatisticLine = ({ name, value }) => {
   console.log("Entered a single statistic component: ", name);
 
   return (
@@ -23,7 +23,16 @@ const Statistic = ({ name, value }) => {
 const Statistics = ({ good, neutral, bad }) => {
   console.log("Entered Statistics Component!");
 
-  if (good === 0 && neutral === 0 && bad === 0) return <p>No feedback given</p>;
+  // Assigning the common header here
+  const heading = <h1>statistics</h1>;
+
+  if (good === 0 && neutral === 0 && bad === 0)
+    return (
+      <>
+        {heading}
+        <p>No feedback given</p>
+      </>
+    );
 
   const all = good + neutral + bad;
   const average = (good - bad) / all || 0; // Ensures average remains 0 if not divisible
@@ -31,13 +40,13 @@ const Statistics = ({ good, neutral, bad }) => {
 
   return (
     <>
-      <h1>statistics</h1>
-      <Statistic name="good" value={good} />
-      <Statistic name="neutral" value={neutral} />
-      <Statistic name="bad" value={bad} />
-      <Statistic name="all" value={all} />
-      <Statistic name="average" value={average} />
-      <Statistic name="positive" value={positivePercentage} />
+      {heading}
+      <StatisticLine name="good" value={good} />
+      <StatisticLine name="neutral" value={neutral} />
+      <StatisticLine name="bad" value={bad} />
+      <StatisticLine name="all" value={all} />
+      <StatisticLine name="average" value={average} />
+      <StatisticLine name="positive" value={positivePercentage} />
     </>
   );
 };
